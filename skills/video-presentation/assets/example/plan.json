@@ -1,0 +1,32 @@
+{
+  "name": "example",
+  "stage": [960, 540],
+  "scheme": "light",
+  "background": "#f5f6f8",
+  "transition": {"kind": "swipe", "secs": 0.3, "sound": "swipe"},
+  "scenes": [
+    {"id": "agenda", "name": "What gets in the way, up front", "page": "scenes/agenda.html", "from": 0, "to": 4200,
+     "status": "new", "board": [600, 2600],
+     "screen": "The heading, then the two problems drop in one by one, numbered, so the viewer knows what is coming."},
+    {"id": "problem", "name": "Problems 1 and 2", "page": "scenes/problem.html", "from": 0, "to": 6800, "transition": "fade",
+     "status": "new", "board": [1700, 3900, 5600],
+     "screen": "Recipe tabs pile up and the pointer hunts across them; then the list is typed by hand, one item at a time, and an empty slot gets a red cross."},
+    {"id": "answer", "name": "The answer, and the line to remember", "page": "scenes/answer.html", "from": 0, "to": 6200,
+     "tag": "One list, built for you", "tone": "good", "status": "new", "board": [700, 3400, 5200],
+     "screen": "The same tabs, still dimmed, light up and fly into one list; every item is there and ticked; then the closing line."}
+  ],
+  "voice": {"dir": "voice", "lines": [
+    {"id": "1", "scene": "agenda", "at": 0.3, "text": "Two things make weekly shopping slow."},
+    {"id": "2", "scene": "problem", "at": 0.3, "text": "The recipes are scattered across tabs."},
+    {"id": "3", "scene": "problem", "at": 2.6, "text": "And the list gets typed by hand, so something is always missing."},
+    {"id": "4", "scene": "answer", "at": 0.4, "text": "Here, the recipes become one list, with nothing left out."},
+    {"id": "5", "scene": "answer", "at": 4.1, "text": "Plan once. Shop once."}
+  ]},
+  "music": [
+    {"scene": "agenda", "at": 0, "mood": "light"},
+    {"scene": "problem", "at": 0, "mood": "tense"},
+    {"scene": "answer", "at": 0.2, "mood": "warm"}
+  ],
+  "loudness": -16,
+  "max_mb": 10
+}

@@ -1,0 +1,47 @@
+/* The kit's look: light by default, dark under prefers-color-scheme: dark. A scene page adds its own file for its
+   own pieces; prefix their class names (e.g. .sc-) so they never meet a kit class. */
+:root { --stage-w:960px; --stage-h:540px;
+  --bg:#f5f6f8; --dot:#dde1e7; --surface:#ffffff; --line:#e3e6ea; --bar:#d9dde3; --text:#12151a; --muted:#6b7280;
+  --good:#12a150; --goodBg:#e7f6ec; --bad:#d92d2d; --badBg:#fdecec; --warn:#c27803; --warnBg:#fff4dc; --accent:#2f6fde;
+  --shadow:0 10px 30px rgba(18,21,26,.08); }
+@media (prefers-color-scheme: dark) { :root { --bg:#0b0d10; --dot:#1d2128; --surface:#15181d; --line:#262a31; --bar:#2c313a; --text:#f2f4f7; --muted:#9aa4b2;
+  --good:#3ee07a; --goodBg:#0f2a1a; --bad:#ff6b6b; --badBg:#2d1414; --warn:#f5b041; --warnBg:#2b2110; --accent:#6ea8ff; --shadow:0 10px 30px rgba(0,0,0,.45); } }
+* { box-sizing:border-box; }
+html, body { margin:0; background:var(--bg); overflow:hidden; font-family:"Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif; color:var(--text); }
+/* the stage keeps its dotted background in every scene: a scene that covers it with a flat fill looks unlike the rest */
+#stage { position:relative; width:var(--stage-w); height:var(--stage-h); overflow:hidden; background:var(--bg);
+  background-image:radial-gradient(var(--dot) 1.2px, transparent 1.4px); background-size:22px 22px; }
+#stage > *, .abs { position:absolute; }
+.world { left:0; top:0; width:100%; height:100%; transform-origin:0 0; }
+
+/* a title card covers the scene with the stage's own background, dots included */
+.title { inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; z-index:50; opacity:0; text-align:center; padding:0 60px; background:inherit; }
+.title h1 { margin:0; font-weight:800; font-size:54px; line-height:1.1; letter-spacing:-.02em; }
+.title p { margin:0; font-weight:600; font-size:22px; color:var(--muted); }
+.title em { font-style:normal; } .title.bad em { color:var(--bad); } .title.good em { color:var(--good); }
+.chip { left:0; right:0; display:flex; justify-content:center; z-index:40; opacity:0; pointer-events:none; font-weight:700; font-size:22px; }
+.chip > i { font-style:normal; padding:9px 22px; border-radius:999px; box-shadow:var(--shadow); background:var(--text); color:var(--bg); }
+.chip.good > i { background:var(--good); color:#fff; } .chip.bad > i { background:var(--bad); color:#fff; }
+.storytag { left:22px; top:20px; z-index:45; padding:7px 14px; border-radius:10px; font-weight:800; font-size:17px; }
+.storytag.bad { background:var(--badBg); color:var(--bad); } .storytag.good { background:var(--goodBg); color:var(--good); }
+
+.cursor { left:0; top:0; z-index:60; opacity:0; filter:drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+.ripple { border:3px solid var(--accent); border-radius:50%; z-index:59; opacity:0; }
+.xmark, .okmark { border-radius:50%; color:#fff; font-weight:900; display:flex; align-items:center; justify-content:center; z-index:46; opacity:0; line-height:1; }
+.xmark { background:#e5484d; box-shadow:0 10px 30px rgba(229,72,77,.35); }
+.okmark { background:#16a34a; box-shadow:0 10px 30px rgba(22,163,74,.3); }
+.ring { position:absolute; inset:-4px; border-radius:inherit; border:3px solid var(--good); opacity:0; pointer-events:none; }
+.ring.bad { border-color:var(--bad); } .ring.warn { border-color:var(--warn); }
+
+.card { background:var(--surface); border:1.5px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:14px 18px; }
+.card .k { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.card .v { margin-top:6px; font-size:19px; font-weight:600; line-height:1.3; }
+.bar { border-radius:5px; background:var(--bar); transform-origin:left center; }
+.tblock { will-change:transform; }
+
+.compare { border-radius:14px; overflow:hidden; box-shadow:var(--shadow); border:1.5px solid var(--line); background:var(--surface); }
+.compare .side { position:absolute; inset:0; }
+.compare .lbl { position:absolute; top:10px; padding:4px 10px; border-radius:8px; font-size:13px; font-weight:800; background:rgba(18,21,26,.72); color:#fff; }
+.compare .lbl.l { left:10px; } .compare .lbl.r { right:10px; }
+.compare .handle { position:absolute; top:0; bottom:0; width:3px; background:#fff; box-shadow:0 0 0 1.5px rgba(18,21,26,.25); opacity:0; }
+.compare .handle::after { content:""; position:absolute; top:50%; left:50%; width:26px; height:26px; margin:-13px 0 0 -13px; border-radius:50%; background:#fff; box-shadow:var(--shadow); }

@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Answer</title>
+<link rel="stylesheet" href="/kit/kit.css"><link rel="stylesheet" href="example.css"></head>
+<body><div id="stage"></div>
+<script src="/kit/kit.js"></script>
+<script src="tabs.js"></script>
+<script>
+// 0 … 1500: the same tabs fly into one list: the change is shown as one move, not announced by a title
+const tabs = recipeTabs();
+const list = el('div', 'sc-list abs', null, '<div class="k">Shopping list · from 6 recipes</div>'); box(list, 300, 96);
+sfx(250, 'glide');
+tabs.forEach((t, i) => {
+  const [x, y] = TAB_AT[i], dx = 420 - x, dy = 200 - y, t0 = 250 + i * 60;
+  // they start dimmed, as the problem scene left them, and light up as they move
+  pt(t, 'o', 0, 0.35); pt(t, 'o', 250, 1);
+  pt(t, 'x', t0, 0); pt(t, 'y', t0, 0); pt(t, 's', t0, 1); pt(t, 'o', t0, 1);
+  pt(t, 'x', t0 + 700, dx); pt(t, 'y', t0 + 700, dy); pt(t, 's', t0 + 700, 0.25); pt(t, 'o', t0 + 650, 1); pt(t, 'o', t0 + 760, 0);
+});
+pop(list, 1150, 420, 'bloom');
+// 1500 … 3600: every item is there and ticked: the proof is the full list, not a claim
+const items = ['Eggs', 'Flour', 'Milk', 'Butter', 'Lemons'];
+items.forEach((name, i) => {
+  const it = el('div', 'sc-item', list, `<span class="ck"><i>✓</i></span><span>${esc(name)}</span>`);
+  const t = 1500 + i * 280; pt(it, 'o', t, 0); pt(it, 'o', t + 200, 1);
+  const ck = it.querySelector('.ck i'); pt(ck, 'o', t + 250, 0); pt(ck, 'o', t + 400, 1); sfx(t + 250, 'tick');
+});
+okmark(680, 70, 3200);
+// 3900 … 6200: the one line to remember
+title('Plan once. <em>Shop once.</em>', null, 'good', 3900, null);
+window.TOTAL = 6200;
+finalize();
+</script></body></html>

@@ -1,0 +1,24 @@
+# Generated builds and Python caches
+dist/
+__pycache__/
+*.py[cod]
+.dependencies/
+
+# Local task data, authoring configuration and credentials
+.ai-profile/
+/.claude/
+/.codex/
+/.mcp.json
+/AGENTS.md
+/CLAUDE.md
+benchmark/
+research/
+.env
+.env.*
+!.env.example
+!trace-viewer/demo/Logs/popup.log
+
+# Renders and results of the sample project, when run in place
+**/.render/
+skills/video-presentation/assets/example/out/
+skills/video-presentation/assets/example/voice/

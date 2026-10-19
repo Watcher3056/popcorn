@@ -1,0 +1,27 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Problem</title>
+<link rel="stylesheet" href="/kit/kit.css"><link rel="stylesheet" href="example.css"></head>
+<body><div id="stage"></div>
+<script src="/kit/kit.js"></script>
+<script src="tabs.js"></script>
+<script>
+// 0 … 2600: problem 1: the recipes pile up, one tab after another, and the pointer hunts across them
+const tag1 = el('div', 'sc-tag abs', null, '1 · Recipes scattered across tabs'); show(tag1, 0, 250, 0);
+const tabs = recipeTabs();
+tabs.forEach((t, i) => pop(t, 200 + i * 230));
+cursor([[1500, 700, 420], [1900, 220, 170], [2200, 330, 330], [2500, 160, 250]], [], 1500, 2600);
+// 2700 … 5600: problem 2: the list is typed by hand, and something is still missing
+const tag2 = el('div', 'sc-tag abs', null, '2 · A list rebuilt by hand'); swap(tag1, tag2, 2700);
+tabs.forEach((t) => { pt(t, 'o', 2700, 1); pt(t, 'o', 3000, 0.35); });
+const list = el('div', 'sc-list abs', null, '<div class="k">Shopping list</div>'); box(list, 560, 120); show(list, 2800, 350);
+let t = 3200;
+for (const name of ['Eggs', 'Flour', 'Milk']) {
+  const it = el('div', 'sc-item', list, '<span class="ck"></span><span class="nm"></span>');
+  pt(it, 'o', t - 1, 0); pt(it, 'o', t, 1);
+  t = typeText(it.querySelector('.nm'), name, t, 14) + 180;
+}
+const gap = el('div', 'sc-item gap', list, '<span></span>'); pt(gap, 'o', t, 0); pt(gap, 'o', t + 250, 1);
+xmark(870, 300, t + 500);
+window.TOTAL = t + 1600;
+finalize();
+</script></body></html>

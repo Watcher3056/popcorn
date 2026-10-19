@@ -1,0 +1,20 @@
+{
+  "name": "video-presentation",
+  "interface": {
+    "displayName": "Video Presentation"
+  },
+  "plugins": [
+    {
+      "name": "video-presentation",
+      "source": {
+        "source": "local",
+        "path": "./dist/video-presentation"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
