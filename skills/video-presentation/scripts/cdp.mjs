@@ -36,7 +36,7 @@ export async function page({ width = 960, height = 540, scale = 1, scheme = 'lig
       for (let tries = 0; ; tries++) {
         const token = String(Date.now()) + tries;
         await send('Page.navigate', { url: url + (url.includes('?') ? '&' : '?') + 'v=' + token });
-        const READY = `[location.search.includes('v=${token}'), typeof seek === 'function', typeof TOTAL === 'number', document.readyState === 'complete', [...document.images].every((i) => i.complete)]`;
+        const READY = `[location.search.includes('v=${token}'), typeof seek === 'function', typeof TOTAL === 'number', document.readyState === 'complete', [...document.images].every((i) => i.complete), [...document.querySelectorAll('video')].every((v) => v.readyState >= 2)]`;
         let state = null;
         for (let k = 0; k < 150; k++) {
           state = await api.js(READY).catch((e) => String(e).slice(0, 120));
@@ -47,8 +47,9 @@ export async function page({ width = 960, height = 540, scale = 1, scheme = 'lig
         console.log(url, 'not ready, loading again:', JSON.stringify(state));
       }
     },
-    // the frame at page time t: seek, then two animation frames so the browser has painted it
-    async at(t) { await api.js(`(seek(${t}), new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(1)))))`); },
+    // the frame at page time t: seek (and wait for any recording in the scene to reach its frame), then two animation
+    // frames so the browser has painted it
+    async at(t) { await api.js(`Promise.resolve(seek(${t})).then(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => r(1)))))`); },
     async shot(file, format = 'png', quality = 90) {
       const r = await send('Page.captureScreenshot', format === 'jpeg' ? { format, quality } : { format });
       const buf = Buffer.from(r.data, 'base64');

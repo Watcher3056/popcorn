@@ -1,0 +1,7 @@
+# Host vocabulary used by this skill.
+host = '''Codex'''
+ask-tool = '''`request_user_input` in Codex (its async form doesn't end the turn: a question the work waits on ends the turn after it)'''
+visual-interactive = ''' (interactive via `$visualize` when it helps)'''
+visual-interactive-tool = '''- Interactive: the `$visualize` skill (inline HTML).'''
+visual-image = '''- Image in the answer: Markdown with an absolute path, using angle brackets for spaces: `![Before / after](<D:/path with spaces/compare.png>)`; what unfolds in time goes as its recording, linked (its path or the graph step that plays it: the chat doesn't play video), a state as a picture.'''
+visual-folder = '''the thread visualization folder or a task output folder'''

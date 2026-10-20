@@ -7,7 +7,7 @@ import common as C
 
 ARGS = sys.argv[1:]
 arg = lambda n, d=None: ARGS[ARGS.index(n) + 1] if n in ARGS else d
-plan = C.load_plan(ARGS[0]); page, t, out = ARGS[1], float(ARGS[2]), os.path.abspath(ARGS[3])
+plan = C.load_plan(ARGS[0]); page, t, out = ARGS[1], float(ARGS[2]), os.path.abspath(ARGS[3]); C.lock(plan)
 cw, ch = map(int, (arg('--css') or f"{plan['stage'][0]}x{plan['stage'][1]}").split('x'))
 pw, ph = map(int, (arg('--px') or f'{cw * 2}x{ch * 2}').split('x'))
 os.makedirs(os.path.dirname(out), exist_ok=True)

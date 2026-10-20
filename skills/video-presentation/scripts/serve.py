@@ -16,7 +16,24 @@ class H(http.server.SimpleHTTPRequestHandler):
         return os.path.join(ROOT, *parts)
 
     def end_headers(self):
-        self.send_header('Cache-Control', 'no-store'); super().end_headers()
+        self.send_header('Accept-Ranges', 'bytes'); self.send_header('Cache-Control', 'no-store'); super().end_headers()
+
+    def do_GET(self):
+        # byte ranges, which a browser needs to seek in a recording placed in a scene
+        rng = self.headers.get('Range', '')
+        path = self.translate_path(self.path)
+        if not rng.startswith('bytes=') or not os.path.isfile(path): return super().do_GET()
+        size = os.path.getsize(path); a, _, b = rng[6:].split(',')[0].partition('-')
+        start = int(a) if a else max(0, size - int(b)); end = min(size - 1, int(b)) if a and b else size - 1
+        if start >= size: self.send_error(416); return
+        self.send_response(206); self.send_header('Content-Type', self.guess_type(path))
+        self.send_header('Content-Range', f'bytes {start}-{end}/{size}'); self.send_header('Content-Length', str(end - start + 1)); self.end_headers()
+        with open(path, 'rb') as f:
+            f.seek(start); left = end - start + 1
+            while left > 0:
+                chunk = f.read(min(1 << 16, left))
+                if not chunk: break
+                self.wfile.write(chunk); left -= len(chunk)
 
     def log_message(self, *a): pass
 

@@ -1,14 +1,14 @@
 """The storyboard for the user's approval before any video: real frames rendered from the scene pages (the frames the
 video will have, not sketches), each scene's beats left to right in time, what happens on screen, its voice lines, its
 length, and whether it is new, changed or kept.
-Usage: storyboard.py <plan.json> [--only new,changed] [--rows 5] [--browsers N]
+Usage: storyboard.py <plan.json> [--only new,changed] [--rows 5] [--browsers N] [--variant <name>]
 Each scene in the plan gives "board": [page times in ms] (default: its middle), "name", "screen" and "status".
 Writes <project>/out/<name>-storyboard-<n>.png."""
 import json, os, sys
 from concurrent.futures import ThreadPoolExecutor
 from PIL import Image, ImageDraw
 import common as C
-from build import scene_url
+from build import scene_url, keep_previous
 
 ARGS = sys.argv[1:]
 arg = lambda n, d=None: ARGS[ARGS.index(n) + 1] if n in ARGS else d
@@ -17,20 +17,26 @@ PAGE_W, PAD, GAP = 1800, 28, 34
 
 
 def main():
-    plan = C.load_plan(ARGS[0]); root = plan['_root']; prof = C.profile(plan, 'board')
+    plan = C.variant(C.load_plan(ARGS[0]), arg('--variant')); root = plan['_root']; prof = C.profile(plan, 'board'); C.lock(plan)
     only = set(arg('--only').split(',')) if arg('--only') else None
-    scenes = [s for s in plan['scenes'] if not only or s.get('status', 'new') in only]
+    cover = plan.get('cover'); everything = list(plan['scenes'])
+    if cover:  # a feed piece's cover is approved with its scenes: it is frame 0 and the thumbnail
+        cs = dict(id='_cover', name='Cover: frame 0 and the thumbnail', page=cover.get('page') or '', board=[cover.get('t', 0)], status=cover.get('status', 'new'),
+                  screen='What the feed and the player show before play.', **{'from': 0, 'to': 0})
+        everything = [cs] + everything
+    scenes = [s for s in everything if not only or s.get('status', 'new') in only]
     if not scenes: raise SystemExit('no scenes to show')
     out_dir = os.path.join(root, '.render', 'board'); os.makedirs(out_dir, exist_ok=True)
     jobs, frames = [], {}
     with C.server(plan) as base:
         for s in scenes:
+            if s['id'] == '_cover' and cover.get('image'): frames['_cover'] = [os.path.join(root, cover['image'])]; continue
             ts = s.get('board') or [(s['from'] + s['to']) / 2]
             frames[s['id']] = []
             for k, t in enumerate(ts):
                 f = os.path.join(out_dir, f"{s['id']}-{k}.png"); frames[s['id']].append(f)
                 jobs.append(dict(url=scene_url(base, s), t=t, out=f, width=plan['stage'][0], height=plan['stage'][1], scale=prof['scale'], scheme=plan['scheme']))
-        n = min(int(arg('--browsers', C.default_browsers(len(scenes)))), len(scenes))
+        n = max(1, min(int(arg('--browsers', C.default_browsers(len(scenes)))), len({j['url'] for j in jobs})))
         groups = [[] for _ in range(n)]
         by_url = {}
         for j in jobs: by_url.setdefault(j['url'], []).append(j)
@@ -45,10 +51,12 @@ def main():
     rows = int(arg('--rows', 5)); pages = [scenes[i:i + rows] for i in range(0, len(scenes), rows)]
     total = sum(C.scene_secs(s) for s in plan['scenes'])
     outs = []; os.makedirs(os.path.join(root, 'out'), exist_ok=True)
+    moved = keep_previous(os.path.join(root, 'out', f"{plan['name']}-storyboard-"))  # an earlier storyboard stays, in out/old/
     for pi, part in enumerate(pages, 1):
         head = f"{plan['name']} · storyboard · {pi} of {len(pages)} · ~{int(total // 60)}:{total % 60:02.0f} in all" + (f" · only {', '.join(sorted(only))}" if only else '')
-        outs.append(page(part, frames, lines, head, os.path.join(root, 'out', f"{plan['name']}-storyboard-{pi}.png"), plan['scenes']))
+        outs.append(page(part, frames, lines, head, os.path.join(root, 'out', f"{plan['name']}-storyboard-{pi}.png"), everything))
     for o in outs: print(o)
+    if moved: print('the earlier storyboard is in', moved)
 
 
 def wrap(d, text, font, width):
@@ -78,7 +86,7 @@ def page(part, frames, lines, head, path, all_scenes):
         n = all_scenes.index(s) + 1; st = s.get('status', 'new'); fg, bg = STATUS.get(st, STATUS['new'])
         lw = d.textlength(st.upper(), font=P) + 20
         d.rounded_rectangle([PAD, y + 3, PAD + lw, y + 27], 8, fill=bg); d.text((PAD + 10, y + 5), st.upper(), font=P, fill=fg)
-        d.text((PAD + lw + 12, y), f"{n:02d}  {s.get('name', s['id'])}   ~{C.scene_secs(s):.1f} s", font=B, fill=(18, 21, 26))
+        d.text((PAD + lw + 12, y), f"{n:02d}  {s.get('name', s['id'])}" + (f"   ~{C.scene_secs(s):.1f} s" if C.scene_secs(s) else ''), font=B, fill=(18, 21, 26))
         fy = y + 44; x = PAD
         for k, im in enumerate(ims):
             img.paste(im, (x, fy)); d.rectangle([x - 1, fy - 1, x + im.width, fy + im.height], outline=(214, 218, 224))

@@ -41,8 +41,25 @@ window.seek = (t) => {
     if (m.cw || m.ch) node.style.clipPath = `inset(0 ${100 - g('cw', 100)}% ${100 - g('ch', 100)}% 0)`;
   }
   for (const h of HOOKS) h(t);
-  return 1;
+  // recordings in the scene show their own moment; the renderer waits until each has that frame
+  const waits = [];
+  for (const [v, t0, rate] of VIDEOS) {
+    const at = Math.max(0, Math.min((v.duration || 1e9) - 0.001, ((t - t0) / 1000) * rate));
+    if (Math.abs(v.currentTime - at) > 1e-4) {
+      waits.push(new Promise((r) => { const done = () => { v.removeEventListener('seeked', done); v.removeEventListener('error', done); r(1); }; v.addEventListener('seeked', done); v.addEventListener('error', done); }));
+      v.currentTime = at;
+    }
+  }
+  return waits.length ? Promise.all(waits).then(() => 1) : 1;
 };
+// a real recording (a screen capture, gameplay, camera footage, an existing video, etc.) placed in the scene: it shows
+// its moment (t - t0) x rate, muted (its own sound goes in through the plan's music file). The file sits inside the
+// project, so the project's server serves it.
+const VIDEOS = [];
+function video(src, x, y, w, h, t0 = 0, rate = 1, parent = null) {
+  const v = el('video', 'clip abs', parent); v.src = src; v.muted = true; v.preload = 'auto'; v.playsInline = true;
+  box(v, x, y, w, h); VIDEOS.push([v, t0, rate]); return v;
+}
 // state that isn't a number (a counter's text, a class that switches, etc.): fn(t) runs at every seek
 function every(fn) { HOOKS.push(fn); }
 window.finalize = () => { for (const m of TRACKS.values()) for (const k in m) m[k].sort((a, b) => a[0] - b[0]); window.seek(0); return 1; };
@@ -84,7 +101,7 @@ function cursor(stops, clicks, t0, t1) {
   }
   return c;
 }
-// a red ✕ stamped on the bad thing, and a green ✓ on the good one
+// a red ✕ for the bad thing and a green ✓ for the good one, placed where they cover nothing that tells the story
 function xmark(x, y, t, parent = null, size = 72) { return mark('xmark', '✕', x, y, t, parent, size, 'fail'); }
 function okmark(x, y, t, parent = null, size = 72) { return mark('okmark', '✓', x, y, t, parent, size, 'chime'); }
 function mark(cls, glyph, x, y, t, parent, size, cue) {

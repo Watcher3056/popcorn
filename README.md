@@ -2,11 +2,12 @@
 
 A reusable skill for presentation media: a narrated story video (a launch,
 an explainer, a demo, a pitch), short animated GIF hooks for a README or a
-landing page, thumbnails and covers. Its source is in
+landing page, carousels of slides for a feed, thumbnails and covers. Its source is in
 `skills/video-presentation/`. It has its own repository, marketplace, package
 and release boundary.
 
-The skill works in three previews, each approved before the next:
+A piece that moves goes through three previews, each approved before the next
+(a still or a carousel: the slides at the size people see them, then the file):
 
 1. a storyboard of real frames, rendered from the actual scene pages;
 2. a 480p draft with voice and sound, rendered fast;

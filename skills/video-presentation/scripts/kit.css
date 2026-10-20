@@ -1,6 +1,7 @@
 /* The kit's look: light by default, dark under prefers-color-scheme: dark. A scene page adds its own file for its
    own pieces; prefix their class names (e.g. .sc-) so they never meet a kit class. */
-:root { --stage-w:960px; --stage-h:540px;
+/* the stage fills the page's viewport, which the renderer sets to the plan's "stage" (wide, vertical, square, etc.) */
+:root { --stage-w:100vw; --stage-h:100vh;
   --bg:#f5f6f8; --dot:#dde1e7; --surface:#ffffff; --line:#e3e6ea; --bar:#d9dde3; --text:#12151a; --muted:#6b7280;
   --good:#12a150; --goodBg:#e7f6ec; --bad:#d92d2d; --badBg:#fdecec; --warn:#c27803; --warnBg:#fff4dc; --accent:#2f6fde;
   --shadow:0 10px 30px rgba(18,21,26,.08); }
@@ -38,6 +39,8 @@ html, body { margin:0; background:var(--bg); overflow:hidden; font-family:"Segoe
 .card .v { margin-top:6px; font-size:19px; font-weight:600; line-height:1.3; }
 .bar { border-radius:5px; background:var(--bar); transform-origin:left center; }
 .tblock { will-change:transform; }
+/* a recording as it is: no corners or shadow of its own; a scene that frames it adds them */
+.clip { object-fit:contain; background:#000; }
 
 .compare { border-radius:14px; overflow:hidden; box-shadow:var(--shadow); border:1.5px solid var(--line); background:var(--surface); }
 .compare .side { position:absolute; inset:0; }

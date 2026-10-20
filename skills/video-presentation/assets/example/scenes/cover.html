@@ -1,0 +1,17 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Cover</title>
+<link rel="stylesheet" href="/kit/kit.css"><link rel="stylesheet" href="example.css"></head>
+<body><div id="stage"></div>
+<script src="/kit/kit.js"></script>
+<script>
+// the cover, composed for itself: the pain in the viewer's words over the one picture that shows it; it is frame 0
+// and the thumbnail, so everything is on screen at its moment
+const h = el('div', 'sc-h abs', null, 'Forgot something <span style="color:var(--bad)">again?</span>'); box(h, 80, 150, 400);
+const sub = el('div', 'sc-sub abs', null, 'One list from all your recipes'); box(sub, 80, 300, 400);
+const list = el('div', 'sc-list abs', null, '<div class="k">Shopping list</div>'); box(list, 540, 110);
+for (const name of ['Eggs', 'Flour', 'Milk']) el('div', 'sc-item', list, '<span class="ck"></span><span class="nm">' + name + '</span>');
+el('div', 'sc-item gap', list, '<span></span>');
+xmark(850, 290, 0);
+window.TOTAL = 1000;
+finalize();
+</script></body></html>

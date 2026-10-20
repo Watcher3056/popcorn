@@ -3,7 +3,8 @@
   "stage": [960, 540],
   "scheme": "light",
   "background": "#f5f6f8",
-  "transition": {"kind": "swipe", "secs": 0.3, "sound": "swipe"},
+  "transition": {"kind": "swipe", "secs": 0.3},
+  "cover": {"page": "scenes/cover.html", "t": 1000},
   "scenes": [
     {"id": "agenda", "name": "What gets in the way, up front", "page": "scenes/agenda.html", "from": 0, "to": 4200,
      "status": "new", "board": [600, 2600],
@@ -26,7 +27,5 @@
     {"scene": "agenda", "at": 0, "mood": "light"},
     {"scene": "problem", "at": 0, "mood": "tense"},
     {"scene": "answer", "at": 0.2, "mood": "warm"}
-  ],
-  "loudness": -16,
-  "max_mb": 10
+  ]
 }

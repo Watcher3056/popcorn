@@ -1,0 +1,7 @@
+# Host vocabulary used by this skill.
+host = '''Claude Code'''
+ask-tool = '''`AskUserQuestion` in Claude Code'''
+visual-interactive = ''' (interactive as a local HTML page when it helps)'''
+visual-interactive-tool = '''- Interactive: a self-contained HTML file in the task output folder, opened in the browser (sent with `SendUserFile` where the session has it).'''
+visual-image = '''- Image in the answer: `SendUserFile` where the session has it; else Markdown with the image's absolute path, in angle brackets for spaces: `![Before / after](<D:/path with spaces/compare.png>)`; what unfolds in time goes as its recording (`SendUserFile`, or a link to its path or the graph step that plays it), a state as a picture.'''
+visual-folder = '''a task output folder'''

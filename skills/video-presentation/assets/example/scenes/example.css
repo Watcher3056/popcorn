@@ -1,5 +1,6 @@
 /* the example's own pieces; the sc- prefix keeps them apart from the kit's classes */
 .sc-h { font-size:40px; font-weight:800; letter-spacing:-.02em; line-height:1.15; }
+.sc-sub { font-size:22px; font-weight:600; color:var(--muted); }
 .sc-row { display:flex; align-items:center; gap:18px; background:var(--surface); border:1.5px solid var(--line); border-radius:16px;
   padding:16px 22px; box-shadow:var(--shadow); font-size:26px; font-weight:600; }
 .sc-row b { flex:none; width:40px; height:40px; border-radius:50%; background:var(--badBg); color:var(--bad); display:flex; align-items:center; justify-content:center; font-size:20px; }
