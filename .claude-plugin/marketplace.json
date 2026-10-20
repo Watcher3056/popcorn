@@ -1,12 +1,12 @@
 {
-  "name": "video-presentation",
+  "name": "popcorn",
   "owner": {
     "name": "Watcher3056"
   },
   "plugins": [
     {
-      "name": "video-presentation",
-      "source": "./dist/claude/video-presentation",
+      "name": "popcorn",
+      "source": "./dist/claude/popcorn",
       "description": "A reusable AI skill for presentation media: narrated story videos, animated GIF hooks, feed carousels, thumbnails and covers, previewed as a storyboard of real frames, then a 480p draft, then the final render."
     }
   ]

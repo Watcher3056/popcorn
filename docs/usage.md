@@ -1,10 +1,10 @@
-# Video-presentation usage
+# Popcorn usage
 
-The plugin and marketplace are both named `video-presentation`. Only this skill
+The plugin and marketplace are both named `popcorn`. Only this skill
 is included. No other skill or Graph runtime is needed to build or use it.
 
-Remove through `codex plugin remove video-presentation@video-presentation` or
-`claude plugin uninstall video-presentation@video-presentation`. It does not
+Remove through `codex plugin remove popcorn@popcorn` or
+`claude plugin uninstall popcorn@popcorn`. It does not
 install global Codex role files. Retained client/project data are separate from
 plugin removal.
 
@@ -42,5 +42,5 @@ Nothing is uploaded; the browsers run headless on the local machine.
 ## Local installation and updates
 
 `python tools/build_plugin.py --install` builds a new version and registers this
-repository as the `video-presentation` marketplace. Each build gets a new
+repository as the `popcorn` marketplace. Each build gets a new
 version number; rebuild and reinstall to update.

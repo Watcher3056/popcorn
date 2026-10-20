@@ -1,14 +1,14 @@
 {
-  "name": "video-presentation",
+  "name": "popcorn",
   "interface": {
-    "displayName": "Video Presentation"
+    "displayName": "Popcorn"
   },
   "plugins": [
     {
-      "name": "video-presentation",
+      "name": "popcorn",
       "source": {
         "source": "local",
-        "path": "./dist/video-presentation"
+        "path": "./dist/popcorn"
       },
       "policy": {
         "installation": "AVAILABLE",

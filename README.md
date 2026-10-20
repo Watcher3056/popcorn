@@ -1,9 +1,10 @@
-# Video Presentation
+# Popcorn
 
-A reusable skill for presentation media: a narrated story video (a launch,
-an explainer, a demo, a pitch), short animated GIF hooks for a README or a
-landing page, carousels of slides for a feed, thumbnails and covers. Its source is in
-`skills/video-presentation/`. It has its own repository, marketplace, package
+A reusable skill for presentation media told as a simple story people follow
+like a cartoon: a narrated story video (a launch, an explainer, a demo, a
+pitch), carousels of slides for a feed, short animated GIF hooks for a README
+or a landing page, thumbnails and covers. Its source is in
+`skills/popcorn/`. It has its own repository, marketplace, package
 and release boundary.
 
 A piece that moves goes through three previews, each approved before the next
@@ -15,16 +16,16 @@ A piece that moves goes through three previews, each approved before the next
 
 Its toolkit renders HTML scene pages frame by frame in headless Chrome, lays
 voice, synthesized sound and music under them, and encodes with ffmpeg. A small
-sample project is in `skills/video-presentation/assets/example/`.
+sample project is in `skills/popcorn/assets/example/`.
 
-Example in Codex: `$video-presentation make a 60-second launch video for this app`.
-In Claude Code: `/video-presentation:video-presentation make a 60-second launch video for this app`.
+Example in Codex: `$popcorn make a 60-second launch video for this app`.
+In Claude Code: `/popcorn:popcorn make a 60-second launch video for this app`.
 
 ## Install
 
 ```sh
-git clone https://github.com/Watcher3056/video-presentation.git
-cd video-presentation
+git clone https://github.com/Watcher3056/popcorn.git
+cd popcorn
 python -m pip install -r requirements-dev.txt
 python tools/build_plugin.py --install
 ```

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Popcorn"
+  short_description: "Story videos, GIF hooks, carousels, thumbnails"
+  default_prompt: "Use $popcorn to make a short narrated video that presents this product, starting with a storyboard I can approve."

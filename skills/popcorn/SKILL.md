@@ -1,9 +1,9 @@
 ---
-name: video-presentation
+name: popcorn
 description: Make presentation media told as a simple story people follow like a cartoon - a narrated story video (product launch, explainer, demo, pitch), carousels of slides for a feed, short animated clips and GIF loops for a README or a landing page, thumbnails and covers, a voice-over for a recording, etc. - with a preview at every step - a storyboard of real frames, a fast draft, then the final. Use when asked for a promo, explainer or demo video, a video or a carousel for a social feed, an animated hook or GIF, a slide-style video, a thumbnail or cover, or a voice-over. Not for a slide deck or a document to present or read as a file (PPTX, a report, etc.); a feed carousel delivered as a PDF, and a video made from an existing deck, are in scope.
 ---
 
-# Video Presentation
+# Popcorn
 
 The aim: a piece (a video, a carousel, a loop, a still, etc.) told as a simple story the viewer follows like a cartoon, understood at a glance and followed to the end, made in a few short rounds with the user instead of many slow re-renders. Each round puts something real in front of the user to react to: frames before motion, a cheap draft before the expensive render.
 

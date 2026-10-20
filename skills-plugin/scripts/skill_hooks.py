@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hooks of the video-presentation plugin: they keep a skill's rules in front of the agents that run it. They need nothing of
+"""Hooks of the popcorn plugin: they keep a skill's rules in front of the agents that run it. They need nothing of
 the graph (the ai-graph plugin): the task's skill comes from the trace the skill itself has its agents write, an agent's
 name and role from the session logs.
 
@@ -40,7 +40,7 @@ def plugin_root():
 
 
 def data_dir():
-    return Path(os.environ.get("PLUGIN_DATA") or os.environ.get("CLAUDE_PLUGIN_DATA") or Path.home() / ".video-presentation")
+    return Path(os.environ.get("PLUGIN_DATA") or os.environ.get("CLAUDE_PLUGIN_DATA") or Path.home() / ".popcorn")
 
 
 def answer(obj=None):
@@ -786,24 +786,24 @@ def on_post_tool_use(ev):
     try:
         notes.append(main_waits_note(task_dir, ev, mine))
     except Exception as e:  # the guard must not stop the agent's work
-        print(f"video-presentation hook: {e}", file=sys.stderr)
+        print(f"popcorn hook: {e}", file=sys.stderr)
     try:
         notes.append(round_note(task_dir, d, ev, mine))
     except Exception as e:  # the reminder must not stop the agent's work
-        print(f"video-presentation hook: {e}", file=sys.stderr)
+        print(f"popcorn hook: {e}", file=sys.stderr)
     try:
         notes.append(sheet_note(task_dir, d, ev, mine))
     except Exception as e:  # the reminder must not stop the agent's work
-        print(f"video-presentation hook: {e}", file=sys.stderr)
+        print(f"popcorn hook: {e}", file=sys.stderr)
     try:
         notes.append(followup_note(task_dir, ev, transcript))
     except Exception as e:  # the reminder must not stop the agent's work
-        print(f"video-presentation hook: {e}", file=sys.stderr)
+        print(f"popcorn hook: {e}", file=sys.stderr)
     if compacted_since(transcript):
         try:
             notes.append(compaction_note(proj, task_dir, d, agent_name(caller if CLAUDE else session_meta(transcript))))
         except Exception as e:  # the reminder must not stop the agent's work
-            print(f"video-presentation hook: {e}", file=sys.stderr)
+            print(f"popcorn hook: {e}", file=sys.stderr)
     answer(context("\n\n".join(x for x in notes if x)))
 
 
@@ -860,7 +860,7 @@ def main():
     except SystemExit:
         raise
     except Exception as e:  # a broken check must never stop the agent's work
-        print(f"video-presentation hook: {e}", file=sys.stderr)
+        print(f"popcorn hook: {e}", file=sys.stderr)
     answer()
 
 
